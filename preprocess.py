@@ -1,13 +1,18 @@
 
-class InputEmbedding(nn.Module):
-    """ Embedding layer before encoder """
+def build_vocab(path):
 
-    def __init__(self, vocab_size, embedding_dim):
-        super(InputEmbedding).__init__()
-        self.embeddings = nn.Embedding(vocab_size, embedding_dim)
-        # TODO add positional embedding
-        #
-    def forward(self, inputs):
-        embeds = self.embeddings(inputs)
-        return embeds
+    word_to_idx, idx_to_word = {}, []
+    index = 0
+
+    f = open(path, "r")
+
+    for line in f.readlines():
+        word = line.strip()
+        word_to_idx[word] = index
+        idx_to_word.append(word)
+        index += 1
+
+
+def sentence_to_vector(sentence):
+    idxs = [word_to_idx[w] for x in sentence.split(" ")]
 
