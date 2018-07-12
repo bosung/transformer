@@ -45,8 +45,19 @@ class PositionalEncoding():
 
 
 def pre_encoder_test():
-    model = InputEmbedding(10, 128)
+    embedding_dim = 128
+    vocab = Vocabulary()
+    vocab.build("data/corpus.tc.en")
+    embed_model = InputEmbedding(16000, embedding_dim)
+    pos_enc_model = PositionalEncoding(embedding_dim)
+    with open("data/corpus.tc.en", "r") as f:
+        for line in f.readlines():
+            word_idxs = vocab.setence2vector(line.strip())
+            v = autograd.Variable(torch.LongTensor(word_idxs))
+            # TODO idk...
+            result = embed_model(v) + pos_enc_model(v)
     print(model)
+
 
 pre_encoder_test()
 

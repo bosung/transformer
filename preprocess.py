@@ -22,8 +22,12 @@ class Vocabulary:
     def build(self, train_path, vocab_size=16000):
         """ build vocabulary from train data """
         word_count = {}
+        line_num = 0
         with open(train_path, "r") as f:
             for line in f.readlines():
+                line_num += 1
+                if line_num % 100000 == 0:
+                    print("[INFO] read %s lines..." % str(line_num))
                 words = [x.strip() for x in line.split(" ")]
                 for w in words:
                     if w not in word_count:
@@ -31,6 +35,7 @@ class Vocabulary:
                     else:
                         word_count[w] += 1
         f.close()
+        print("[INFO] total %s lines" % str(len(line_num)))
         print("[INFO] total %s vocabulary" % str(len(word_count)))
         print("[INFO] build %s vocabulary dict from %s" % (str(vocab_size), train_path))
         vocab_idx = 0
