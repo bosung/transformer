@@ -14,7 +14,7 @@ class Vocabulary:
             for line in f.readlines():
                 word = line.strip()
                 self.word2idx[word] = self.idx
-                self.idx2word.append(word)
+                self.idx2word[self.idx] = word
                 self.idx += 1
         f.close()
         print("[DONE] load vocabulary from %s" % vocab_path)
@@ -59,14 +59,9 @@ class Vocabulary:
         return vector
 
 
-def build_vocab(path):
+if __name__ == "__main__":
     vocab = Vocabulary()
-    vocab.build(path)
-    return vocab
-
-
-vocab = Vocabulary()
-vocab.build("data/corpus.tc.en")
-result = vocab.sentence2vector("Obama relation new automatic automa")
-print(result)
+    vocab.build("data/corpus.tc.en")
+    result = vocab.sentence2vector("Obama relation new automatic automa")
+    print(result)
 
